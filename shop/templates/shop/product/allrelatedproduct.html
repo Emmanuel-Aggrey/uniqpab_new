@@ -1,0 +1,110 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+<h2 class=""> <b>{{category}}</b></h2>
+
+<div class="container">
+    <div class="row">
+
+        {% for similar_product in allrelated %}
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="thumbnail">
+
+            <a href="{{ similar_product.get_absolute_url }}">
+              <img
+                src="{% if similar_product.image %} {{ similar_product.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                alt="..." style="height: 130px; width: auto">
+            </a>
+            <div class="caption">
+              <h3 class="text-center">
+                <a href="{{ similar_product.get_absolute_url }}">{{ similar_product.name }}</a>
+              </h3>
+              <p class="text-center text-danger">GH₵: {{ similar_product.price }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if allrelated.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ allrelated.previous_page_number }}">Previous</a></li>
+        {% else %}    
+            <li class="page-item disabled"><a class="page-link">First</a></li>
+        {% endif %}    
+        {% if allrelated.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ allrelated.previous_page_number }}">{{ allrelated.previous_page_number }}</a></li>
+        {% endif %}
+            <li class="page-item active"><a class="page-link" href="#">{{ allrelated.number }}</a></li>
+        {% if allrelated.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ allrelated.next_page_number }}">{{ allrelated.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ allrelated.next_page_number }}">Next</a></li>
+        {% else %}    
+            <li class="page-item disabled"><a class="page-link">End</a></li>
+        {% endif %}    
+    </ul>
+</nav>
+
+        <!-- afordabel below -->
+        <div class="row">
+
+<form action=""> 
+  
+    <div class="form-group">
+        <!-- <h4>price range</h4> -->
+      <input id="my-input" type="range" class="form-control-rang my_input" id="formControlRange" name="value" value="{{request.GET.value}}" max="300" min="10">
+
+      <button type="submit" class="btn btn-danger btn-sm mx-4">Submit</button>
+      price range <label  id="price_output" for="my-input"> </label>
+    </div>
+ 
+  
+        {% for affordable in affordable %}
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="thumbnail">
+
+            <a href="{{ affordable.get_absolute_url }}">
+              <img
+                src="{% if affordable.image %} {{ affordable.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                alt="..." style="height: 130px; width: auto">
+            </a>
+            <div class="caption">
+              <h3 class="text-center">
+                <a href="{{ affordable.get_absolute_url }}">{{ affordable.name }}</a>
+              </h3>
+              <p class="text-center text-danger">GH₵: {{ affordable.price }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+  </form>
+
+    
+</div>
+</div>
+
+<!-- onmousewheel -->
+
+<script>
+slider = document.querySelector('#my-input')
+price_output = document.querySelector('#price_output')
+price_output.innerHTML ='GH₵:' + slider.value
+
+slider.oninput =function(){
+  price_output.innerHTML = 'GH₵: '+this.value+'.00'
+}
+
+
+
+</script>
+
+{% endblock %}

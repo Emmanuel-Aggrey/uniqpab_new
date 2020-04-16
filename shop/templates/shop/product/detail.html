@@ -1,0 +1,269 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+{% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!-- <img src="{% static "img/logo.png" %}" alt="" height="50"> -->
+
+
+<div class="container">
+
+  <div class="row" style="margin-top: 6%">
+
+    <div class="col-sm-8 blog-main">
+
+      <div class="blog-post">
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+             <nav aria-label="Page breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page"><a
+                      href="{% url 'shop:product_list' %}">home</a></li>
+                  <li class="breadcrumb-item">details</li>
+                </ol> 
+              </nav>
+              <div class="col-md-6">
+                <!-- <img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                  alt="..." style="height: 300px; width: auto"> -->
+                  <img  id="zoom_01" src="{{ product.image.url }}" data-zoom-image="{{ product.image.url }}" style="height: 250px; width: auto">
+
+                  <!-- <img  id="zoom_01" src="{{ product.image.url }}" data-zoom-image="{{ product.image.url }}" style="height: 250px; width: auto"> -->
+                 
+              </div>
+              <!-- Thumbnails -->
+
+              <div class="row mb-5 thumbs">
+
+
+              </div>
+
+              <!--end of  Thumbnails -->
+
+              <!-- carousel -->
+
+
+
+              <!-- end of carousel -->
+
+
+              <!-- image in ligthbox -->
+
+              <div class=" ">
+
+
+                <!-- image1 -->
+
+                {% if product.image1  %}
+
+                <a title="{{ product.name }}  GH₵: {{ product.price }} in  {{ product.category }}  "
+                  href="{{ product.image1.url }}" data-lightbox="home-images">
+
+                  <img class="img-thumbnail img-fluid " src="{{ product.image1.url }}" alt="" class="img-fluid"
+                    height="50" width="auto">
+
+                </a>
+                {% endif %}
+
+                <!-- image2 -->
+
+
+                {% if product.image2  %}
+
+                <a  title="{{ product.name }}  GH₵: {{ product.price }} in {{ product.category.name }}  "
+                  href="{{ product.image2.url }}" data-lightbox="home-images" >
+
+                  <img class="img-thumbnail img-fluid " src="{{ product.image2.url }}" alt="" class="img-fluid"
+                    height="50" width="auto" >
+
+                </a>
+                {% endif %}
+                <!-- image 3 -->
+
+
+
+                {% if product.image3  %}
+
+                <a title="{{ product.name }}  GH₵: {{ product.price }} in {{ product.category.name }}  "
+                  href="{{ product.image3.url }}" data-lightbox="home-images">
+
+                  <img class="img-thumbnail img-fluid " src="{{ product.image3.url }}" alt="" class="img-fluid"
+                    height="50" width="auto">
+
+                </a>
+                {% endif %}
+              </div>
+
+              <!--end of image in lightbox -->
+
+              <!-- share start -->
+
+              <div class="sharethis-inline-share-buttons"></div>
+              <!-- end share start -->
+
+              <div class="col-md-4 col-sm-4 col-xs-4" style="">
+                <h3>{{ product.name }}</h3>
+                <h6><a href="{% url 'shop:allrelated' product.category.slug %}">{{ product.category }}</a></h6>
+                <p class="text-danger">GH₵: {{ product.price }}</p>
+                <!-- add to cut remove jumping into cat list after post request -->
+                <form action="{% url "cart:cart_add" product.id %}" method="POST">
+                  {% csrf_token %}
+                  <hr>
+                  {{ cart_product_form }}
+                  <input type="submit" value="add to cart" class="btn btn-primary"> <br>
+
+                </form>
+                <hr>
+                <a class="" href="tel:+233246394796">
+                  <i class="fa fa-phone" aria-hidden="true"> call to order</i><br>
+
+                </a>
+
+                <br>
+                <p class="text-muted">{{ product.description|safe|linebreaksbr }}</p>
+                
+                <!--start share  -->
+
+                
+                <!-- {% autoescape on %}
+
+{% with "http://carlosvin.alwaysdate.net" as host %}
+{% with "Share in" as share_txt %}
+
+{% with "twitter" as service %}
+<a class="fa fa-twitter" href="http://twitter.com/share?url={{ host }}{{ page_url }}&amp;text={{ title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+    <img src="http://carlosvin.alwaysdate.net/templates/img/tw.png" alt="{{ share_txt }} {{ service }}"/>
+</a>
+{% endwith%}
+
+{% with "facebook" as service %}
+<a class="fa fa-facebook" href="http://www.facebook.com/share.php?u={{ host }}{{ page_url }}&amp;t={{ title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+    <img src="http://carlosvin.alwaysdate.net/templates/img/fb.png" alt="{{ share_txt }} {{ service }}"/>
+</a>
+{% endwith %}
+
+{% with "linkedin" as service %}
+<a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ host }}{{ page_url }}&amp;title={{ title }}&amp;ro=false&amp;summary=&amp;source=" target="_blank" title="{{ share_txt }} {{ service }}">
+    <img src="http://carlosvin.alwaysdate.net/templates/img/ln.png" alt="{{ share_txt }} {{ service }}"/>
+</a>
+{% endwith %}
+
+{% with "reader" as service %}
+<a class="fa fa-reader" href="http://www.google.com/reader/link?title={{ title }}&amp;url={{ host }}{{ page_url }}" target="_blank" title="{{ share_txt }} {{ service }}">
+    <img src="http://carlosvin.alwaysdate.net/templates/img/rd.png" alt="{{ share_txt }} {{ service }}"/>
+</a>
+{% endwith %}
+
+{% with "buzz" as service %}
+<a href="http://www.google.com/buzz/post?message={{ title }}&amp;url={{ host }}{{ page_url }}" target="_blank" title="{{ share_txt }} {{ service }}">
+    <img src="http://carlosvin.alwaysdate.net/templates/img/bz.png" alt="{{ share_txt }} {{ service }}"/>
+</a>
+{% endwith %}
+
+{% endwith %}
+{% endwith %}
+
+{% endautoescape %} -->
+                <!-- end of share  -->
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div><!-- /.blog-post -->
+      
+      <div class="col">
+        <h3 class="text-display-4 text-muted"> Recommendations </h3>
+        {% for recomendations in recomendation  %}
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="thumbnail">
+
+            <a href="{{ recomendations.get_absolute_url }}">
+              <img
+                src="{% if recomendations.image %} {{ recomendations.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                alt="..." style="height: 130px; width: auto">
+            </a>
+            <div class="caption">
+              <h3 class="text-center">
+                <a href="{{ recomendations.get_absolute_url }}">{{ recomendations.name }}</a>
+              </h3>
+              <p class="text-center text-danger">GH₵: {{ recomendations.price }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div><!-- /.blog-main -->
+
+
+
+    <!-- </div> -->
+    <!-- /.row don't delete this the above end div -->
+
+
+    <!-- above you may also like -->
+
+    <div class="row" style="margin-top: 6%">
+      <h2 class="text-muted">may also like</h2>
+      <div class="">
+
+        {% for may_like in may_like  %}
+
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="thumbnail">
+
+            <a href="{{ may_like.get_absolute_url }}">
+              <img
+                src="{% if may_like.image %} {{ may_like.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                alt="..." style="height: 130px; width: auto">
+            </a>
+            <div class="caption">
+              <h3 class="text-center">
+                <a href="{{ may_like.get_absolute_url }}">{{ may_like.name }}</a>
+              </h3>
+              <p class="text-center text-danger">GH₵: {{ may_like.price }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+        <style>
+        img{
+          object-fit: contain;
+        }
+        </style>
+
+
+
+      </div><!-- /.blog-main -->
+
+    </div><!-- /.container -->
+
+    
+    <script src="{% static 'js/jquery.min.js'%}" type="text/javascript"></script>
+
+   
+    <!-- <script src="{% static "js/jquery.elevatezoom.min.js" %}"></script> -->
+    <script src="{% static "js/jquery.elevatezoom.js" %}"></script>
+    <!-- <script src="{% static "js/my_elevator.js" %}"></script> -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script> -->
+
+
+ 
+<script>
+  $("#zoom_01").elevateZoom();
+</script>
+
+{% endblock %}

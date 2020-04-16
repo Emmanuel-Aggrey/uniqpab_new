@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<head>
+
+    {% block head %}
+
+    <title>
+
+        {% block title %}
+        Your Shopping Cart| Thank you
+        {% endblock %}
+    </title>
+
+    {% endblock head %}
+
+</head>
+{% block body %}
+<div class="container">
+    <div class="row" style="margin-top: 6%">
+        <div class="col-md-8 col-md-offset-2">
+            <h1 class="page-header">Thank You For Shopping With Us
+            </h1>
+            <h2>Your order has been successfully completed. Your order number is <strong class="text-info">{{ order.order_number }}</strong> you
+                will be contacted soon </h2>
+            <h3 class="text-danger">an email was sent to the email addres you provided </h3>
+        </div>
+    </div>
+</div>
+{% endblock body %}

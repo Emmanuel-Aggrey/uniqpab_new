@@ -1,0 +1,186 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script> -->
+
+
+<div class="container">
+
+  <form method="GET" action="{% url 'shop:product_list' %}">
+
+    <div id="" class="">
+      <button style="float: right;" type="submit"><i class="fa fa-search"></i></button>
+      <!-- <button  style="float: right;" class="hidden-xs  " type="submit">find</button>  -->
+
+      <input style="float: right; " class=" " type="search" name="keyword"
+        id="large_screen" placeholder="search products,brands and categories" {{ request.GET.keyword }}">
+<!--   
+      <input class="hidden-sm hidden-md hidden-lg hidden-xl" type="search" name="keyword" id="small_screen"
+        placeholder="search products,brands and categories" value="{{ request.GET.keyword }}"> -->
+
+      <br>
+    </div>
+
+
+    
+</div>
+
+<br>
+<!-- owl carousel start -->
+
+<h4 style="font-style: italic;">hotest deals</h4>
+<div id="owl-demo" class="owl-carousel owl-theme" style="">
+
+  {% for latest_products in latest_product %}
+  <div class="">
+
+    <div class="card mb-3" style="max-width: 540px;">
+      <a href="{{ latest_products.get_absolute_url }}">
+
+      <h3 class="float-right mx-4">{{latest_products.name}}</h3>
+      <h4 class="text-danger">GH₵:  {{latest_products.price}}</h4>
+      <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="{{ latest_products.image.url}}" class="card-img img-fluid" alt="..."style="object-fit:cover;height: 130px; width: 200px;">
+          </a>
+        </div>
+      
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+  
+
+</div>
+
+
+<!-- owl carousel end -->
+<hr> <Label>Latest Deals</Label>
+<div class="row" style="margin-top: 1%">
+
+  <div class="clearfix">
+
+    {% for product in products %}
+
+
+    <div class="col-md-4 col-sm-4 col-xs-6 col-xl-3 clearfix ">
+      <div class="thumbnail img-fluid">
+
+        <a href="{{ product.get_absolute_url }}">
+          <img class=""
+            src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+            alt="..." height="220" width="220">
+        </a>
+        <div class="caption">
+          <h3 class="text-center">
+            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+            <hr>
+          </h3>
+          <p class="text-center text-danger">GH₵: {{ product.price }}</p>
+        </div>
+     <p class="text-success">uniqpab</p>
+
+      </div>
+    </div>
+    {% empty %}
+
+
+    <h4 class="text-muted my-4">no result found, you may be interested in these latest prodcucts </h4>
+    {% for categorys in all_category %}
+
+
+    <div class="col-md-4 col-sm-4 col-xs-6 col-xl-3">
+      <div class="thumbnail">
+
+        <a href="{% url 'shop:allrelated' categorys.slug  %}">
+          <img
+            src="{% if categorys.image %} {{ categorys.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+            alt="..." style="height: 130px; width: auto">
+        </a>
+        <div class="caption">
+          <h3 class="text-center">
+            <a href="{% url 'shop:allrelated' categorys.slug  %}">{{ categorys.name }}</a>
+          </h3>
+        </div>
+      </div>
+    </div>
+
+
+    {% endfor %}
+
+    {% endfor %}
+  </form>
+  </div><!-- /.row -->
+
+    <!-- get session keyword from search -->
+  
+ 
+
+    <!-- end of session key word from search -->
+
+
+
+
+
+
+  </div><!-- /.blog-main -->
+
+  <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+    <div class="sidebar-module static">
+      <h4>Categories</h4>
+      <ol class="list-unstyled">
+        <li {% if not category %} class="active" {% endif %}><a href="{% url 'shop:product_list' %}">All</a>
+        </li>
+        {% for c in categories %}
+
+        <li {% if category.slug == c.slug %} class="active" {% endif %}>
+          <a href="{% url 'shop:allrelated' c.slug %}">{{ c.name }}</a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+  </div>
+  <!-- /.blog-sidebar -->
+
+
+</div><!-- /.container -->
+
+
+<style>
+  
+  #small_screen{ 	
+    display: block;
+    color: rgb(83, 61, 61);  
+    /* text-align: center; */
+    cursor: pointer;
+    /* display: block;  */
+    width: 91%; 
+    /* letter-spacing: 4px;         */
+        
+  
+  }
+  
+  #large_screen{
+    color: rgb(83, 61, 61);  
+    /* text-align: center; */
+    cursor: pointer;
+    width: 80%; 
+    /* display: block;  */
+  
+    /* letter-spacing: 4px;         */
+    
+  }
+
+</style>
+
+
+{% endblock %}

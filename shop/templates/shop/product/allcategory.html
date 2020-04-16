@@ -1,0 +1,147 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+{% if category %}uniqpab|{{ category.name }} {% else %} uniqpab|Products {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- above -->
+
+<div class="container">
+
+    <form method="GET" action="">
+      <div id="" class="">
+        <button style="float: right;" type="submit"><i class="fa fa-search"></i></button>
+        <!-- <button  style="float: right;" class="hidden-xs  " type="submit">find</button>  -->
+  
+        <input style="float: right; " class=" " type="search" name="keyword"
+          id="large_screen" placeholder="search products,brands and categories" {{ request.GET.keyword }}">
+<!--   
+        <input class="hidden-sm hidden-md hidden-lg hidden-xl" type="search" name="keyword" id="small_screen"
+          placeholder="search products,brands and categories" value="{{ request.GET.keyword }}"> -->
+  
+        <br>
+      </div>
+  
+  
+   
+     
+
+  <div class="row" style="margin-top: 6%">
+
+    <div class="">
+
+        {% for allcategory in categorys %}
+
+
+            <div class="col-md-4 col-sm-4 col-xs-6">
+              <div class="thumbnail">
+
+                <a href="{% url 'shop:allrelated' allcategory.slug %}">
+                  <img
+                    src="{% if allcategory.image %} {{ allcategory.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                    alt="{{ allcategory.name }}" style="height: 130px; width: auto">
+                </a>
+                <div class="caption">
+                  <h3 class="text-center">
+                    <a href="{% url 'shop:allrelated' allcategory.slug %}">{{ allcategory.name }}</a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            {% empty %}
+            <h4 class="text-muted my-4">no result found, you may be interested in these latest prodcucts </h4>
+            {% for sugest in sugest %}
+
+
+            <div class="col-md-4 col-sm-4 col-xs-6">
+              <div class="thumbnail">
+
+                <a href="{{ sugest.get_absolute_url }}">
+                  <img
+                    src="{% if sugest.image %} {{ sugest.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+                    alt="{ sugest.name }}" style="height: 130px; width: auto">
+                </a>
+                <div class="caption">
+                  <h3 class="text-center">
+                    <a href="{{ sugest.get_absolute_url }}">{{ sugest.name }}</a> <br>
+                  </h3>
+                  <a class="text-danger" href="{{ sugest.get_absolute_url }}">GH₵: {{ sugest.price }}</a>
+
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+            {% endfor %}
+        
+        
+    
+
+    </div><!-- /.blog-main -->
+
+   
+
+  </div><!-- /.row -->
+  <hr class="bg-danger">
+  <h1>  most bought this month</h1>
+
+
+  {% for best_buy in best_buy  %}
+    
+    
+  <div class="col-md-4 col-sm-4 col-xs-6">
+    <div class="thumbnail">
+
+      <a href="{{ best_buy.get_absolute_url }}">
+        <span class="badge badge-light"> <small>availbel {{ best_buy.available|yesno:'yes,no' }}</small></span>
+        <img
+          src="{% if best_buy.image %} {{ best_buy.image.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}"
+          alt="..." style="height: 130px; width: auto">
+      </a>
+      <div class="caption">
+        <h3 class="text-center">
+          <a href="{{ best_buy.get_absolute_url }}">{{ best_buy.name }}</a>
+        </h3>
+        <p class="text-center text-danger">GH₵: {{ best_buy.price }}</p>
+        
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</form>
+
+</div><!-- /.container -->
+
+
+<style>
+
+
+  #small_screen{ 	
+    display: block;
+    color: rgb(83, 61, 61);  
+    /* text-align: center; */
+    cursor: pointer;
+    /* display: block;  */
+    width: 91%; 
+    /* letter-spacing: 4px;         */
+        
+  
+  }
+  
+  #large_screen{
+    color: rgb(83, 61, 61);  
+    /* text-align: center; */
+    cursor: pointer;
+    width: 80%; 
+    /* display: block;  */
+  
+    /* letter-spacing: 4px;         */
+    
+  }
+  </style>
+
+{% endblock  %}
