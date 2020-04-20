@@ -56,7 +56,7 @@ def checkout(request):
             
                 # print(first_name,email,address,phone_number,city)
                 
-                # mass email
+                #send  mass email
                 email_from = settings.EMAIL_HOST_USER
                 message1 = ('Hello aggrey ', f'a customer with phone { phone_number } and name { name } from {city} having { order_number } as order number had ordered for a product sign in to admin for more info use the phone,email,name order number to search', email_from, ['aggrey.en@live.com','aggrey.en@gmail.com',])
                 message2 = ('Hello ' f'{ name } your order number is {order_number}','\n\tOrder placed successfully we will call u soon please keep the order number safe. Thanks for shopping with us', email_from, [customer_email])
@@ -64,7 +64,7 @@ def checkout(request):
                     send_mass_mail((message1, message2), fail_silently=False)
 
                 except:
-                    messages.info(request,f'email not sent but your order was placed successfully your order number is\t{order_number}\tkindly feel free to give us a call on\
+                    messages.info(request,f'email not sent but your order was placed successfully your order number is\t<h3><b><u>{order_number}</u></b></h3>\tkindly feel free to give us a call on\
                     <b>0240699506</b> please keep the order number safe')
                     cart.clear()
                     return redirect('orders:checkout')

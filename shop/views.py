@@ -132,8 +132,8 @@ def error404(request,exception):
     context = {
         'date':'IT LOOKS LIKE YOU\'R MISSING',
     }
-    return render(request,'error/error404.html',context)
+    return render(request,'error_pages/error404.html',context)
 
 def error500(exception):
     
-    return render(request,'error/error404.html')
+    return render(request,'error_pages/error404.html')
