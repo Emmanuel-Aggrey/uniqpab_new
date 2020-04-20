@@ -1,49 +1,55 @@
 from django.shortcuts import render, get_object_or_404,get_list_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
+from  django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Category, Product, Gallary,MainCategory,SubCategory
+from .models import Category, Product,MainCategory,SubCategory,Review
 from cart.forms import CartAddProductForm
+from .forms import ReviewForm
 from datetime import date, timedelta
 from django.utils import timezone
 from cart.cart import Cart
 
 
 
-def product_list(request):
+def product_list(request,exception=None):
     subcategory = SubCategory.objects.all()
-    products = Product.objects.all()
+    products = Product.objects.filter(available=True)[0:10]
+
+    # paginating main display
+    main_products =Product.objects.filter(available=True).order_by('?')
+    paginator = Paginator(main_products, 10)
+    page = request.GET.get('page')
+    try:
+        products_page= paginator.page(page)
+    except PageNotAnInteger:
+        products_page = paginator.page(1)
+    except EmptyPage:
+        products_page = paginator.page(paginator.num_pages)
     context = {
        'category':subcategory,
        'products':products,
+       'banner':products_page,
     }
     return render(request, 'shop/index.html', context)
 
 
-def allCategory(request):
-    queryset_list = Category.objects.all()
-    sugest = Product.objects.order_by('-updated_at')
-    best_buy = sugest.order_by('created_at')
-
-    query = request.GET.get('keyword')
-    if query:
-        queryset_list = queryset_list.filter(name__icontains=query)
-    notfound = 'nothing much your search result'
-
-    context = {
-        'categorys': queryset_list,
-        'sugest': sugest,
-        'best_buy': best_buy,
-
-    }
-
-    return render(request, 'shop/product/allcategory.html', context)
 
 
 def allRelated(request,id,slug):
-    allrelated = get_list_or_404(SubCategory,id=id,slug=slug)
+    allrelated = SubCategory.objects.get(id=id,slug=slug)
+    
+    products = allrelated.products.filter(available=True)
+   
+    price = request.GET.get('price')
+    if price:
+
+        products = products.filter(price__lte=price)
+       
+
     context = {
-        'allrelated': allrelated,
+        'allrelated': products,
+        'similar_items':allrelated
        
     }
     return render(request,'shop/relatedproducts.html', context)
@@ -60,6 +66,10 @@ def product_detail(request, id, slug):
 
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
 
+    #passing this session variable to reviews
+    request.session['product']=product.id
+    # end here 
+
     num_views = int(product.num_views )
     num_views +=1
 
@@ -74,39 +84,56 @@ def product_detail(request, id, slug):
         'product': product,
         
         'cart_product_form': cart_product_form,
+        'review':Review.objects.filter(product=product)
         # 'recomendation': recomendation,
         # 'may_like': may_like,
     }
+ 
     return render(request, 'shop/detail.html', context)
 
 
 def search_product(request):
+    
     # queryset_list = Product.objects.filter(available=True)
     queryset_list = Product.objects.order_by('-created_at')
 
-    query = request.GET.get('keyword')
+    query = request.GET.get('q')
+   
     if query:
         queryset_list = queryset_list.filter(
-            Q(name__icontains=query) | Q(price__lte=query))
-    size = len(queryset_list)
+            Q(name__icontains=query) |Q(category__name__icontains=query))
+    
+    price = request.GET.get('price')
 
+    if price:
+        queryset_list = queryset_list.filter(price__lte=price)
+  
     context = {
         'search_result': queryset_list,
-        'resultSize': size,
+       
     }
 
-    return render(request, 'shop/product/search.html', context)
+    return render(request, 'shop/search.html', context)
 
 
-def checkout(request):
-    return render(request,'shop/checkout.html')
+def review(request):
+
+    if request.method == 'POST':
+        product = request.session.get('product')
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        Review.objects.create(product_id=product,name=name,email=email,message=message)
+
+    return HttpResponse()
 
 
-def mygallery(request):
-
-    gallary = Gallary.objects.all()
-
+def error404(request,exception):
     context = {
-        'gallary': gallary,
+        'date':'IT LOOKS LIKE YOU\'R MISSING',
     }
-    return render(request, 'shop/partials/carousel.html', context)
+    return render(request,'error/error404.html',context)
+
+def error500(exception):
+    
+    return render(request,'error/error404.html')

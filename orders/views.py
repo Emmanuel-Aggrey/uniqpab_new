@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 from django.conf import settings
 from uniqstore.settings import EMAIL_HOST_USER
-
+from  django.contrib import  messages
 from django.core.mail import send_mail
 from django.core.mail import send_mass_mail
 from .models import OrderItem
@@ -11,9 +11,7 @@ from cart.cart import Cart
 
 
 
-
-
-def order_create(request):
+def checkout(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -62,12 +60,18 @@ def order_create(request):
                 email_from = settings.EMAIL_HOST_USER
                 message1 = ('Hello aggrey ', f'a customer with phone { phone_number } and name { name } from {city} having { order_number } as order number had ordered for a product sign in to admin for more info use the phone,email,name order number to search', email_from, ['aggrey.en@live.com','aggrey.en@gmail.com',])
                 message2 = ('Hello ' f'{ name } your order number is {order_number}','\n\tOrder placed successfully we will call u soon please keep the order number safe. Thanks for shopping with us', email_from, [customer_email])
+                try:
+                    send_mass_mail((message1, message2), fail_silently=False)
 
-                send_mass_mail((message1, message2), fail_silently=False)
+                except:
+                    messages.info(request,f'email not sent but your order was placed successfully your order number is\t{order_number}\tkindly feel free to give us a call on\
+                    <b>0240699506</b> please keep the order number safe')
+                    cart.clear()
+                    return redirect('orders:checkout')
 
           
             cart.clear()
-        return render(request, 'order/created.html', {'order': order})
+        return render(request, 'order/checkoout_success.html', {'order': order})
     else:
         form = OrderCreateForm()
-    return render(request, 'order/create.html', {'form': form})
+    return render(request, 'order/checkoout.html', {'form': form})

@@ -28,15 +28,15 @@
 					<!-- Logo -->
 					<div class="header-logo">
 						<a class="logo" href="{% url 'shop:product_list' %}">
-							<img src="{% static 'img/logo.png' %}" alt="">
+							<img src="{% static 'img/logosmall.png' %}" alt="" style="width: auto;"> 
 						</a>
 					</div>
 					<!-- /Logo -->
 
 					<!-- Search -->
 					<div class="header-search">
-						<form>
-							<input  style="border-radius: 20px;" class="input" type="text" placeholder="Enter your keyword" name="q">
+						<form action="{% url 'shop:search' %}">
+							<input  style="border-radius: 20px;" class="input" type="text" placeholder="Enter your keyword" name="q" required>
 							
 							<button class="search-btn"><i class="fa fa-search"></i></button>
 						</form>
@@ -77,11 +77,17 @@
 							<div class="custom-menu">
 								<div id="shopping-cart">
 									
-									<div class="shopping-cart-btns">
+									<div class="shopping-cart-btns clearfix">
 		
+										{% if cart.get_total_price < 1 %}
+										<p class="text-danger">your carrt is empty</p>
+										{% else %}
 										<button class="main-btn"><a href="{% url 'cart:cart_detail' %}">View Cart <i class="fa fa-arrow-circle-right"></i> </a></button>
 
-										<button class="main-btn"><a href="{% url 'shop:checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i> </a></button>
+										<button class="main-btn"><a href="{% url 'orders:checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i> </a></button>
+						
+										{% endif %}
+										
 									</div>
 								</div>
 							</div>

@@ -13,7 +13,7 @@
 	<title>
 	
 	{% block title %}
-	uniqpab-deial
+	uniqpab-{{product.name}}
 	{% endblock title %}
 	</title>
 
@@ -24,8 +24,7 @@
 <body>
 	
 {% block body %}
-
-
+<script src="{% static 'js/jquery.min.js' %}"></script>
 
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
@@ -38,8 +37,24 @@
 			</ul>
 		</div>
 	</div>
+
+
+	<!-- Button trigger modal -->
+	<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
+	  Launch
+	</button> -->
+	
+	<!-- Modal -->
+	
 	<!-- /BREADCRUMB -->
 
+
+<script>
+// $( "#modelId" ).dialog({autoOpen:true})
+</script>
+
+
+ 
 
 	<!-- section -->
 	<div class="section">
@@ -52,30 +67,54 @@
 					<div class="col-md-6">
 						<div id="product-main-view">
 							<div class="product-view">
+								{% if product.image.url %}
 								<img src="{{product.image.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image1.url %}
 								<img src="{{product.image1.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image2.url %}
 								<img src="{{product.image2.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image3.url %}
 								<img src="{{product.image3.url}}" alt="">
+
+								{% endif %}
 							</div>
 						</div>
 						<div id="product-view">
 							<div class="product-view">
+								{% if product.image.url %}
 								<img src="{{product.image.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image1.url %}
 								<img src="{{product.image1.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image2.url %}
 								<img src="{{product.image2.url}}" alt="">
+
+								{% endif %}
 							</div>
 							<div class="product-view">
+								{% if product.image3.url %}
 								<img src="{{product.image3.url}}" alt="">
+
+								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -95,7 +134,7 @@
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star-o empty"></i>
 								</div>
-								<a href="#">3 Review(s) / Add Review</a>
+								<a href="#">{{review.count}} Review(s) / Add Review</a>
 							</div>
 							<p><strong>Availability:</strong> {{available|yesno:"No,Yes" }}</p>
 							<!-- <p><strong>Brand:</strong> E-SHOP</p> -->
@@ -115,34 +154,53 @@
 									<li><a href="#" style="background-color:#9A54D8;"></a></li>
 								</ul>
 							</div>
-							<form action="{% url 'cart:cart_add' product.id product.slug %}" method="POST">
-								{% csrf_token %}
+							<form id="cartform" method="POST">
+							
 								<div class="form-group product-btns">
-									<span class="text-uppercase">QTY: </span>
+									<div class="qty-input">
+										<span class="text-uppercase">QTY: </span>
+										<input class="input" type="number" id="quantity" required>
+									</div>
+								 <button id="addtocart" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+								 <h3><a id="checkout" href="{% url 'orders:checkout' %}"></a></h3>
 
-								 {{cart_product_form.quantity}}
+								</form>
 								</div>
+								<div id="modelId">
+	
+									<button class="main-btn"><a href="{% url 'orders:checkout' %}">CONTINEU SHOPPING<i class="fa fa-arrow-circle-right"></i> </a></button>
+									<button class="main-btn"><a href="{% url 'cart:cart_detail' %}">VIEW CART &  CHECKOUT <i class="fa fa-shopping-cart"></i> </a></button>
+								
+								</div>
+								
 							
 							<div class="product-btns">
 								<div class="qty-input">
 								</div>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-							</form>
+						
 								<div class="pull-right">
-									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
+									<!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+									<!--  -->
+									<a class="mx-4 btn-link fa fa-share-alt main-btn icon-btn"
+									href="https://api.whatsapp.com/send?phone=2347068533426&text=Hello Feel free to send us a text waiting on you "
+									target="_blank"></a>
+									<!--  -->
+									<!-- <button class="main-btn icon-btn"><i class="fa fa-share-alt"></i> -->
+									</button>
 								</div>
 							</div>
 						
 						</div>
 					</div>
 					<div class="col-md-12">
+						<p class="text-danger" id="info"></p>
+
 						<div class="product-tab">
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
 								<li><a data-toggle="tab" href="#tab1">Details</a></li>
-								<li><a data-toggle="tab" href="#tab2">Reviews (3)</a></li>
+								<li><a data-toggle="tab" href="#tab2">Reviews ({{review.count}})</a></li>
 							</ul>
 							<div class="tab-content">
 								<div id="tab1" class="tab-pane fade in active">
@@ -153,10 +211,13 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="product-reviews">
+												{% for reviews in review %}
+												  
+											
 												<div class="single-review">
 													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
+														<div><a href="#"><i class="fa fa-user-o"></i> {{reviews.name}}</a></div>
+														<div><a href="#"><i class="fa fa-clock-o"></i>{{reviews.date}}</a></div>
 														<div class="review-rating pull-right">
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
@@ -166,81 +227,37 @@
 														</div>
 													</div>
 													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+														<p>{{reviews.message}}</p>
 													</div>
 												</div>
+												{% endfor %}
+												
 
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
-												</div>
-
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
-												</div>
-
-												<ul class="reviews-pages">
-													<li class="active">1</li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-												</ul>
+												
 											</div>
 										</div>
 										<div class="col-md-6">
 											<h4 class="text-uppercase">Write Your Review</h4>
 											<p>Your email address will not be published.</p>
-											<form class="review-form">
+											<form class="review-form" id="reviewform" method="POST">
+												{% csrf_token %}
 												<div class="form-group">
-													<input class="input" type="text" placeholder="Your Name" />
+													<input id="name" class="input" type="text" placeholder="Your Name" />
 												</div>
 												<div class="form-group">
-													<input class="input" type="email" placeholder="Email Address" />
+													<input id="email" class="input" type="email" placeholder="Email Address" />
 												</div>
 												<div class="form-group">
-													<textarea class="input" placeholder="Your review"></textarea>
+													<textarea id="message" class="input" placeholder="Your review"></textarea>
 												</div>
 												<div class="form-group">
 													<div class="input-rating">
 														<strong class="text-uppercase">Your Rating: </strong>
-														<div class="stars">
-															<input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-															<input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-															<input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-															<input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-															<input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-														</div>
+													<!-- stars were -->
 													</div>
 												</div>
-												<button class="primary-btn">Submit</button>
+												<button  id="submit" class="btn btn-primary" value="">Submit</button>
+												<!-- <button class="primary-btn">Submit</button> -->
 											</form>
 										</div>
 									</div>
@@ -275,7 +292,7 @@
 				</div>
 				<!-- section title -->
 
-				{% for popular in popular %}
+				{% for popular in popular|slice:'0:8' %}
 				  
 				
 				<!-- Product Single -->
@@ -292,18 +309,21 @@
 						<div class="product-body">
 							<h3 class="product-price"> GH¢ {{popular.price}} <del class="product-old-price">$45.00</del></h3>
 							<div class="product-rating">
+								<!-- <i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i> -->
 							</div>
 							<h2 class="product-name">{{popular.name}}</h2>
 						</a>
 							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<a class="primary-btn btn-block  add-to-cart text-center" href="{{products.get_absolute_url}}">View Details</a>
+
+								<!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
 								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+								 -->
 							</div>
 						</div>
 					</div>
@@ -319,6 +339,7 @@
 	<!-- /section -->
 
 
+
 <style>
     #id_quantity{
         height: 35px;
@@ -328,7 +349,122 @@
 		width: 100px;
 
 	}
+
+	.main-btn{
+		margin-top: 1em;
+	
+	
+	}
+	#modelId{
+	display: inline;
+	}
 </style>
+
+
+
+<script>
+
+$('#modelId').toggle()
+
+product = '{{product.id}}'
+url ='/add{{product.id}}/{{product.slug}}/'
+
+// console.log(url)
+
+	$('#reviewform').on('submit',function(e){
+		
+		e.preventDefault();
+	   
+	  // var department = '{{department.id}}'
+	
+	  // console.log('department = ',department,'url = ',url)
+	
+		$.ajax({
+			type:'POST',
+			url:'/review/',
+		
+			data:{
+			 
+				name:$('#name').val(),
+				email:$('#email').val(),
+				message:$('#message').val(),
+			 
+				csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+		
+			},
+		beforeSend:function(){
+			$('#submit').text('sending review...')
+		},
+		
+
+			success:function(){
+			$('#name').val('')
+			$('#email').val('')
+			$('#message').val('')
+			$('#submit').text('submit')
+			
+			$('#info').text('thank you for reviwing our product')
+			location.reload()
+			},
+			error:function(){
+				$('#submit').text('not saved try again')
+				// $('#submit').fadeIn().text('submit')
+			}
+	
+		})
+	})
+
+
+	// add to cart
+
+	$('#cartform').on('submit',function(e){
+		
+		e.preventDefault();
+	   
+	  // var department = '{{department.id}}'
+	
+	  // console.log('department = ',department,'url = ',url)
+	  url ='/add/{{product.id}}/{{product.slug}}/'
+	
+		$.ajax({
+			type:'POST',
+			url:url,
+		
+			data:{
+			 
+				product:product,
+				quantity:$('#quantity').val(),
+				// update_quantity:$('#update_quantity').val(),
+			 
+				csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+		
+			},
+		beforeSend:function(){
+			$('#addtocart').text('adding to cart..')
+		},
+		
+			success:function(){
+				$('#addtocart').text('Add to Cart')
+				// location.reload()
+				// $('#checkout').fadeIn().text('checkout')
+				old_cart = $('.qty').text()
+				new_cart = $('#quantity').val()
+				new_value= parseInt(old_cart)+parseInt(new_cart)
+				$('.qty').text(new_value)
+				$('#quantity').val('')
+				$('#modelId').fadeIn()
+
+			},
+			error:function(){
+			alert('error')
+			}
+	
+		})
+	})
+	
+		</script>
+	
+
 {% endblock body %}
 </body>
 

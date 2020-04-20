@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import  handler404,handler500
 from django.urls import path,include
 
 from django.conf import settings
@@ -23,4 +24,7 @@ urlpatterns = [
     path('',include('shop.urls')),
     path('',include('orders.urls')),
     path('',include('cart.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'shop.views.error404'
+handler500 = 'shop.views.error500'

@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from  django.utils import  timezone
 
 class MainCategory(models.Model):
     name = models.CharField(max_length=200,unique=True,default=1)
@@ -61,12 +62,8 @@ class Product(models.Model):
     image2 = models.ImageField(upload_to='products_img/%Y/%m/%d', blank=True,null=True)
     image3 = models.ImageField(upload_to='products_img/%Y/%m/%d', blank=True,null=True)
 
-
-
-
-
     class Meta:
-        ordering = ('-name', )
+        ordering = ('-updated_at', )
         index_together = (('id', 'slug'),)
 
     def __str__(self):
@@ -75,15 +72,10 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
 
-# work on this later
-class Gallary(models.Model):
-    image1 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
-    image2 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
-    image3 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
-    image4 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
-    image5 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
-    image6 = models.ImageField(upload_to='gallary_img/%Y/%m/%d', blank=True,null=True)
 
-
-    def __str__(self):
-        return f'gallary' 
+class Review(models.Model):
+    product =models.ForeignKey(Product,on_delete=models.CASCADE,related_name='reviews')
+    name = models.CharField(max_length=200)
+    email= models.EmailField()
+    message = models.TextField()
+    date =models.DateTimeField(default=timezone.now)

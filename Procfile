@@ -1,1 +1,1 @@
-web: gunicorn ecommerce.wsgi --log-file -
+web: gunicorn uniqstore.wsgi:application --preload --workers 1

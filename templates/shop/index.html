@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load humanize %}
-
+{% load bootstrap_pagination %}
 {% load static %}
 <html lang="en">
 
@@ -35,7 +35,7 @@
 					<!-- banner -->
 					<a href="{{items.get_absolute_url}}">
 					<div class="banner banner-1">
-						<img src="{{items.image.url}}" alt="" height="400">
+						<img src="{{items.image.url}}" alt="" height="400" width="auto">
 						<div class="banner-caption">
 							<h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50%
 									OFF</span></h1>
@@ -61,45 +61,31 @@
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
+			
 			<div class="row">
+				{% for banners in banner %}
 				<!-- banner -->
 				<div class="col-md-4 col-sm-6">
-					<a class="banner banner-1" href="#">
-						<img src="{% static 'img/banner10.jpg' %}" alt="">
+					<a class="banner banner-1" href="{{banners.get_absolute_url}}">
+						<img src="{{banners.image.url}}" alt="" style="width: auto;">
 						<div class="banner-caption text-center">
-							<h2 class="white-color">NEW COLLECTION</h2>
+							<h4 class="white-color">NEW COLLECTION</h4>
 						</div>
+						<h2 class="text-danger">{{banners.name}}</h2> <p>{{banners.updated_at|timesince}} ago</p>
+
 					</a>
 				</div>
 				<!-- /banner -->
-
-				<!-- banner -->
-				<div class="col-md-4 col-sm-6">
-					<a class="banner banner-1" href="#">
-						<img src="{% static 'img/banner11.jpg' %}" alt="">
-						<div class="banner-caption text-center">
-							<h2 class="white-color">NEW COLLECTION</h2>
-						</div>
-					</a>
-				</div>
-				<!-- /banner -->
-
-				<!-- banner -->
-				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3">
-					<a class="banner banner-1" href="#">
-						<img src="{% static 'img/banner12.jpg' %}" alt="">
-						<div class="banner-caption text-center">
-							<h2 class="white-color">NEW COLLECTION</h2>
-						</div>
-					</a>
-				</div>
-				<!-- /banner -->
-
-
+				{% endfor %}
+				
 			</div>
+			<h1 class="text-center">{% bootstrap_paginate banner %}</h1>
+
 			<!-- /row -->
+			
 		</div>
 		<!-- /container -->
+
 	</div>
 	<!-- /section -->
 
@@ -148,25 +134,27 @@
 									
 									<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick
 										view</button>
-									<img src="{{items.image.url}}" alt="">
+									<img src="{{items.image.url}}" alt="" style="width: fit-content; height: fit-content;">
 								</div>
 								<div class="product-body">
 									<h3 class="product-price">GH¢ {{items.price|intcomma}} <del
 											class="product-old-price">$45.00</del></h3>
 									<div class="product-rating">
+										<!-- <i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i> -->
 									</div>
 									<h2 class="product-name">{{items.name}}</h2>
 								</a>
 									<div class="product-btns">
-										<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+										<a class="primary-btn btn-block  add-to-cart text-center" href="{{items.get_absolute_url}}">View Details</a>
+
+										<!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 										<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
 										<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add
-											to Cart</button>
+											to Cart</button> -->
 
 									</div>
 
@@ -221,25 +209,28 @@
 
 						<div class="product-thumb">
 
+
 							<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
-							<img src="{{items.image.url}}" alt="">
+							<img src="{{items.image.url}}" alt="" style="width: fit-content;height: fit-content;">
 						</div>
 						<div class="product-body">
 							<h3 class="product-price">GH¢ {{items.price|intcomma}}</h3>
 							<div class="product-rating">
+								<!-- <i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i> -->
 							</div>
 							<h2 class="product-name">{{items.name}}</h2>
 						</a>
 							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<a class="primary-btn btn-block  add-to-cart text-center" href="{{items.get_absolute_url}}">View Details</a>
+
+								<!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
 								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to
-									Cart</button>
+									Cart</button> -->
 							</div>
 
 						</div>
@@ -265,7 +256,7 @@
 					</div>
 				</div>
 
-				{% for products in popular %}
+				{% for products in popular|slice:'0:8' %}
 
 
 				<!-- Product Single -->
@@ -277,24 +268,26 @@
 								<span>New</span>
 							</div>
 							<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
-							<img src="{{products.image.url}}" alt="">
+							<img src="{{products.image.url}}" alt="" style="width: fit-content;height: fit-content;">
 						</div>
 						<div class="product-body">
 							<h3 class="product-price">GH¢ {{popular.price|intcomma}}</h3>
 							<div class="product-rating">
+								<!-- <i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i> -->
 							</div>
 							<h2 class="product-name">{{products.name}}</h2>
 						</a>
 							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<a class="primary-btn btn-block  add-to-cart text-center" href="{{products.get_absolute_url}}">View Details</a>
+
+								<!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
 								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to
-									Cart</button>
+									Cart</button> -->
 							</div>
 						</div>
 					</div>

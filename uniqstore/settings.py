@@ -25,7 +25,7 @@ SECRET_KEY = '76*t%t*xp!hfq0ulo03jvpgfrf8h=48w4t3e0(5j&1xiz6k6xn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.43.212']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.43.212','172.20.10.10']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'crispy_forms',
+    'bootstrap_pagination',
     # 'cloudinary_storage',
     # 'cloudinary',
 
