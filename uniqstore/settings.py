@@ -42,10 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    # personal
-    'shop',
-    'orders',
-    'cart',
+
 
     # 3rd party
     'crispy_forms',
@@ -53,10 +50,16 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
 
+    # personal
+    'shop',
+    'orders',
+    'cart',
+
 ]
 
 
 CART_SESSION_ID = 'cart'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -145,17 +148,10 @@ USE_TZ = True
 # STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_HOST_USER = config('EMAIL')
-EMAIL_HOST_PASSWORD = config('PASSWORD')
-
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # static settings
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -165,6 +161,14 @@ STATICFILES_DIRS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL')
+EMAIL_HOST_PASSWORD = config('PASSWORD')
 
 
 CLOUDINARY_STORAGE = {
