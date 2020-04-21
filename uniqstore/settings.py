@@ -141,16 +141,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
 # WHITENOISE
 # STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -165,7 +155,19 @@ EMAIL_HOST_PASSWORD = config('PASSWORD')
 
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUD_NAME'),
     'API_KEY': config('API_KEY'),
