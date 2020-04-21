@@ -154,7 +154,7 @@ os.path.join(BASE_DIR,'static')
 ]
 
 # WHITENOISE 
-STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # email settings
@@ -166,18 +166,10 @@ EMAIL_HOST_USER=config('EMAIL')
 EMAIL_HOST_PASSWORD=config('PASSWORD')
 
 # CLOUDINARY_STORAGE
-
-
 MEDIA_URL = '/media/'
-
-
 DEFAULT_FILE_STORAGE=config('DEFAULT_FILE_STORAGE')
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME':config('CLOUD_NAME'),
     'API_KEY':config('API_KEY'),
     'API_SECRET':config('API_SECRET'),
 }
-
-if DEBUG:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
-
