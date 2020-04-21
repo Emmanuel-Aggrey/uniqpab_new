@@ -134,6 +134,6 @@ def error404(request,exception):
     }
     return render(request,'error_pages/error404.html',context)
 
-def error500(exception):
+def error500(request):
     
     return render(request,'error_pages/error404.html')

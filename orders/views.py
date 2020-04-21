@@ -64,7 +64,7 @@ def checkout(request):
                     send_mass_mail((message1, message2), fail_silently=False)
 
                 except:
-                    messages.info(request,f'email not sent but your order was placed successfully your order number is\t<h3><b><u>{order_number}</u></b></h3>\tkindly feel free to give us a call on\
+                    messages.info(request,f'email not sent but your order was placed successfully your order number is\t<h4><b><u>{order_number}</u></b></h4>\tkindly feel free to give us a call on\
                     <b>0240699506</b> please keep the order number safe')
                     cart.clear()
                     return redirect('orders:checkout')
