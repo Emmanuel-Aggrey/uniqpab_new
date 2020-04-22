@@ -16,18 +16,18 @@ def product_list(request, exception=None):
 
     # paginating main display
     main_products = Product.objects.filter(available=True).order_by('?')
-    # paginator = Paginator(main_products, 10)
-    # page = request.GET.get('page')
-    # try:
-    #     products_page = paginator.page(page)
-    # except PageNotAnInteger:
-    #     products_page = paginator.page(1)
-    # except EmptyPage:
-    #     products_page = paginator.page(paginator.num_pages)
+    paginator = Paginator(main_products, 10)
+    page = request.GET.get('page')
+    try:
+        products_page = paginator.page(page)
+    except PageNotAnInteger:
+        products_page = paginator.page(1)
+    except EmptyPage:
+        products_page = paginator.page(paginator.num_pages)
     context = {
         'category': subcategory,
         'products': products,
-        'banner':main_products,# products_page,
+        'banner': products_page,
     }
     return render(request, 'shop/index.html', context)
 
