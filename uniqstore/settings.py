@@ -149,7 +149,7 @@ USE_TZ = True
 
 
 # WHITENOISE
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
