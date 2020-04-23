@@ -16,10 +16,10 @@
 
 						<li class="dropdown side-dropdown" ><a class="dropdown-toggle" data-toggle="dropdown"
 								aria-expanded="true">{{navbars.name}} <i class="fa fa-angle-right"></i></a>
-							<div class="custom-menu">
+							<div class="custom-menu clearfix">
 
 
-								<div class="row">
+								<div class="row clearfix">
 									{% for category in  navbars.categories.all %}
 
 									<div class="col-md-4">
@@ -31,11 +31,8 @@
 
 											{% for items in category.subcategory.all %}
 
-											<a href="{{items.get_absolute_url}}" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
-										
-												{{items.name}}
-										
-											</a>
+
+											<li><a class="clearfix" href="{{items.get_absolute_url}}">{{items.name}}</a></li>
 											{% endfor %}
 
 										</ul>
