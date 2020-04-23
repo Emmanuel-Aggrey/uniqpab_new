@@ -124,13 +124,13 @@ def review(request):
     return HttpResponse()
 
 
-# def error404(request, exception):
-#     context = {
-#         'date': 'IT LOOKS LIKE YOU\'R MISSING',
-#     }
-#     return render(request, 'error_pages/error404.html', context)
+def error404(request, exception):
+    context = {
+        'date': 'IT LOOKS LIKE YOU\'R MISSING',
+    }
+    return render(request, 'error_pages/error404.html', context)
 
 
-# def error500(request):
+def error500(request):
 
-#     return render(request, 'error_pages/error404.html')
+    return render(request, 'error_pages/error404.html')
