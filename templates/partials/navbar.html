@@ -31,8 +31,11 @@
 
 											{% for items in category.subcategory.all %}
 
-
-											<li><a href="{{items.get_absolute_url}}">{{items.name}}</a></li>
+											<a href="{{items.get_absolute_url}}">
+											<li>
+												{{items.name}}
+											</li>
+											</a>
 											{% endfor %}
 
 										</ul>

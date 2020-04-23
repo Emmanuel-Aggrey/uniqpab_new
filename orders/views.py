@@ -75,3 +75,11 @@ def checkout(request):
     else:
         form = OrderCreateForm()
     return render(request, 'order/checkoout.html', {'form': form})
+
+
+def payment_success(request):
+    return render(request,'payment/success.html')
+
+
+def payment_fail(request):
+    return render(request,'payment/fail.html')

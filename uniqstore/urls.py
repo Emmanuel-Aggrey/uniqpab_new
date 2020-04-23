@@ -21,10 +21,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+
     path('',include('shop.urls')),
     path('',include('orders.urls')),
     path('',include('cart.urls')),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'shop.views.error404'
-handler500 = 'shop.views.error500'
+# handler404 = 'shop.views.error404'
+# handler500 = 'shop.views.error500'

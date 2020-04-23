@@ -57,8 +57,8 @@
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="#"><i class="fa fa-user-plus"></i> Create Account</a></li>
+								<li><a href="{% url 'account_login' %}"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus"></i> Create Account</a></li>
 							</ul>
 						</li>
 						<!-- /Account -->
@@ -82,9 +82,9 @@
 										{% if cart.get_total_price < 1 %}
 										<p class="text-danger">your carrt is empty</p>
 										{% else %}
-										<button class="main-btn"><a href="{% url 'cart:cart_detail' %}">View Cart <i class="fa fa-arrow-circle-right"></i> </a></button>
+									<a class="main-btn" href="{% url 'cart:cart_detail' %}">View Cart <i class="fa fa-arrow-circle-right"></i> </a>
 
-										<button class="main-btn"><a href="{% url 'orders:checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i> </a></button>
+									<a class="main-btn" href="{% url 'orders:checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i> </a>
 						
 										{% endif %}
 										

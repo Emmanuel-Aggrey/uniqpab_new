@@ -10,7 +10,7 @@ from datetime import date, timedelta
 from django.utils import timezone
 from cart.cart import Cart
 
-def product_list(request, exception=None):
+def product_list(request):
     subcategory = SubCategory.objects.all()
     products = Product.objects.filter(available=True)[0:10]
 
@@ -124,13 +124,13 @@ def review(request):
     return HttpResponse()
 
 
-def error404(request, exception):
-    context = {
-        'date': 'IT LOOKS LIKE YOU\'R MISSING',
-    }
-    return render(request, 'error_pages/error404.html', context)
+# def error404(request, exception):
+#     context = {
+#         'date': 'IT LOOKS LIKE YOU\'R MISSING',
+#     }
+#     return render(request, 'error_pages/error404.html', context)
 
 
-def error500(request):
+# def error500(request):
 
-    return render(request, 'error_pages/error404.html')
+#     return render(request, 'error_pages/error404.html')

@@ -8,7 +8,7 @@
     <title>
 
         {% block title %}
-        Your Shopping Cart| Thank you
+        payment failure| Thank you
         {% endblock %}
     </title>
 
@@ -21,9 +21,8 @@
         <div class="col-md-8 col-md-offset-2">
             <h1 class="page-header">Thank You For Shopping With Us
             </h1>
-            <h2>Your order has been successfully completed. Your order number is <strong class="text-info">{{ order.order_number }}</strong> you
-                will be contacted soon </h2>
-            <h3 class="text-danger">an email was sent to the email addres you provided </h3>
+            <h2>Your payment was not successfull <strong class="text-info">{{ order.order_number }}</strong> 
+            <a href="{% url 'shop:product_list' %}">continue shopping</a></h2>
         </div>
     </div>
 </div>

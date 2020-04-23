@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.43.212', 'aggreyshop.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.43.212', 'aggreyshop.herokuapp.com','localhost']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
@@ -50,6 +51,15 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
 
+	
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
+
     # personal
     'shop',
     'orders',
@@ -59,6 +69,7 @@ INSTALLED_APPS = [
 
 
 CART_SESSION_ID = 'cart'
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,8 +117,8 @@ DATABASES = {
     }
 }
 
-prod_db  =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
+# prod_db  =  dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(prod_db)
 
 
 
@@ -153,7 +164,8 @@ USE_TZ = True
 
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # static settings
@@ -165,13 +177,50 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# email settings
+# email settings Google
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL')
 EMAIL_HOST_PASSWORD = config('PASSWORD')
+
+
+
+
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_SESSION_REMEMBER = 'yes'
+
+
+
+
+LOGIN_REDIRECT_URL = 'shop:product_list'
+# LOGIN_URL = 'account_login'
+# LOGOUT_REDIRECT_URL = ''
+
+# LOGIN_URL = 'account_login'
+
+
+# EMAIL_BACKEND = 'smtp-relay.sendinblue.com'
+# EMAIL_HOST = 'smtp-relay.sendinblue.com'
+# EMAIL_PORT = '587'
+# EMAIL_HOST_USER ='aggrey.en@gmail.com'
+# EMAIL_HOST_PASSWORD ='yGn52c6IbgmzUTXF'
 
 
 CLOUDINARY_STORAGE = {
