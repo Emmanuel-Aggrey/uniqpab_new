@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 from decouple import config
-import dj_database_url 
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,7 +29,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.43.212', 'aggreyshop.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.43.212',
+                 'aggreyshop.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
 
-	
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -69,7 +70,9 @@ INSTALLED_APPS = [
 
 
 CART_SESSION_ID = 'cart'
-SITE_ID = 1
+SITE_ID = config('SITE_ID', cast=int)
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'shop.forms.SignupForm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -117,9 +120,9 @@ DATABASES = {
     }
 }
 
-prod_db  =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
 
+prod_db = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
 
 
 # Password validation
@@ -164,9 +167,9 @@ USE_TZ = True
 
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # DEFAULT_FILE_STORAGE =config('DEFAULT_FILE_STORAGE')
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # static settings
@@ -187,8 +190,6 @@ EMAIL_HOST_USER = config('EMAIL')
 EMAIL_HOST_PASSWORD = config('PASSWORD')
 
 
-
-
 AUTHENTICATION_BACKENDS = (
 
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -206,8 +207,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_SESSION_REMEMBER = 'yes'
-
-
 
 
 LOGIN_REDIRECT_URL = 'shop:product_list'

@@ -403,9 +403,9 @@ url ='/add{{product.id}}/{{product.slug}}/'
 			$('#email').val('')
 			$('#message').val('')
 			$('#submit').text('submit')
-			
-			$('#info').text('thank you for reviwing our product')
 			location.reload()
+			$('#info').text('thank you for reviwing our product')
+		
 			},
 			error:function(){
 				$('#submit').text('not saved try again')

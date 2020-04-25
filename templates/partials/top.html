@@ -2,7 +2,7 @@
 {% load static %}
 	<!-- HEADER -->
 	<header>
-		<!-- top Header -->
+		{% comment %} <!-- top Header -->
 		<div id="top-header">
 			<div class="container">
 				<div class="pull-left">
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- /top Header -->
+		<!-- /top Header --> {% endcomment %}
 
 		<!-- header -->
 		<div id="header">
@@ -28,7 +28,7 @@
 					<!-- Logo -->
 					<div class="header-logo">
 						<a class="logo" href="{% url 'shop:product_list' %}">
-							<img src="{% static 'img/logosmall.png' %}" alt="" style="width: auto;"> 
+							<img src="{% static 'ihmg/logosmall.png' %}" alt="" style="width: auto;"> 
 						</a>
 					</div>
 					<!-- /Logo -->
