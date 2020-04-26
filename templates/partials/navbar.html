@@ -16,12 +16,12 @@
 
 						<li class="dropdown side-dropdown" ><a class="dropdown-toggle" data-toggle="dropdown"
 								aria-expanded="true">{{navbars.name}} <i class="fa fa-angle-right"></i></a>
-							<div class="custom-menu ">
-								<ul class="list-links">
+							<div class="custom-menu clearfix">
 
-								<div class="row">
+
+								<div class="row clearfix">
 									{% for category in  navbars.categories.all %}
-										
+
 									<div class="col-md-4">
 
 										<ul class="list-links">
@@ -31,15 +31,15 @@
 
 											{% for items in category.subcategory.all %}
 
-												
-											<li ><a class="" href="{{items.get_absolute_url}}">{{items.name}}</a></li>
+
+											<li><a class="clearfix" href="{{items.get_absolute_url}}">{{items.name}}</a></li>
 											{% endfor %}
 
 										</ul>
 									</div>
-										
+
 									{% endfor %}
-								</ul>
+
 								</div>
 
 
