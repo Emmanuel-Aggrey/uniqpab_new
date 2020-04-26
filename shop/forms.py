@@ -13,6 +13,6 @@ class SignupForm(forms.Form):
     location = forms.CharField(max_length=200,help_text='your location')
 
     def signup(self,request,user):
-        user.phone = self.changed_data['phone']
-        user.address = self.changed_data['address']
-        user.location = self.changed_data['location']
+        user.phone = self.cleaned_data['phone']
+        user.address = self.cleaned_data['address']
+        user.location = self.cleaned_data['location']

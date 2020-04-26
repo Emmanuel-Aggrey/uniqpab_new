@@ -72,7 +72,7 @@ INSTALLED_APPS = [
 CART_SESSION_ID = 'cart'
 SITE_ID = config('SITE_ID', cast=int)
 
-ACCOUNT_SIGNUP_FORM_CLASS = 'shop.forms.SignupForm'
+# ACCOUNT_SIGNUP_FORM_CLASS = 'shop.forms.SignupForm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -167,9 +167,9 @@ USE_TZ = True
 
 # CLOUDINARY_STORAGE
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # DEFAULT_FILE_STORAGE =config('DEFAULT_FILE_STORAGE')
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # static settings
@@ -204,7 +204,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_SESSION_REMEMBER = 'yes'
 

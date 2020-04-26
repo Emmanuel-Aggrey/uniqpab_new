@@ -1,110 +1,72 @@
-		
-{% load static %}
-	<!-- HEADER -->
-	<header>
-		{% comment %} <!-- top Header -->
-		<div id="top-header">
-			<div class="container">
-				<div class="pull-left">
-					
-				</div>
-				<div class="pull-right">
-					<ul class="header-top-links">
-						<li><a href="{% url 'shop:product_list' %}">Store</a></li>
-						<li><a href="#">Newsletter</a></li>
-						<li><a href="#">FAQ</a></li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /top Header --> {% endcomment %}
+		{% load static %}
+		<!-- HEADER -->
+		<header>
 
-		<!-- header -->
-		<div id="header">
-			<div class="container">
-				<div class="pull-left">
-					<!-- Logo -->
-					<div class="header-logo">
-						<a class="logo" href="{% url 'shop:product_list' %}">
-							<img src="{% static 'ihmg/logosmall.png' %}" alt="" style="width: auto;"> 
-						</a>
-					</div>
-					<!-- /Logo -->
-
-					<!-- Search -->
-					<div class="header-search">
-						<form action="{% url 'shop:search' %}">
-							<input  style="border-radius: 20px;" class="input" type="text" placeholder="Enter your keyword" name="q" required>
-							
-							<button class="search-btn"><i class="fa fa-search"></i></button>
-						</form>
-					</div>
-					<!-- /Search -->
-				</div>
+			<!-- header -->
+			<div id="header">
+					<!-- Mobile nav toggle-->
+					<li class="nav-toggle ">
+						<button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+					</li>
+					<!-- / Mobile nav toggle -->
 				<div class="pull-right">
 					<ul class="header-btns">
 						<!-- Account -->
-						<li class="header-account dropdown default-dropdown">
-							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-user-o"></i>
+						<li class="header-account">
+							<div class="header-btns-icon">
+								<div class="dropdown">
+									<div id="my-dropdown" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fa fa-user-o"></i>
+									</div>
+									<div class="dropdown-menu" aria-labelledby="my-dropdown">
+										{% if not request.user.is_authenticated %}
+										<a href="{% url 'account_login' %}" class="text-uppercase">Login</a> /
+										<a href="{% url 'account_signup' %}" class="text-uppercase">Join</a>
+										{% else %}
+										<a href="{% url 'account_logout' %}"><i class="fa fa-unlock-alt"></i> logout</a>
+
+										{% endif %}
+									</div>
 								</div>
-								<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
+
+								<!-- <strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong> -->
+
+
 							</div>
-							<a href="#" class="text-uppercase">Login</a> / <a href="#" class="text-uppercase">Join</a>
-							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-								<li><a href="{% url 'account_login' %}"><i class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus"></i> Create Account</a></li>
-							</ul>
+
 						</li>
 						<!-- /Account -->
 
 						<!-- Cart -->
 						<li class="header-cart dropdown default-dropdown ">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">{{cart|length}}</span>
-								</div>
-								<strong class="text-uppercase">My Cart:</strong>
-								<br>
-								<!-- <span>GH¢ {{cart.get_total_price}}</span> -->
-							</a>
-							<div class="custom-menu">
-								<div id="shopping-cart">
-									
-									<div class="shopping-cart-btns">
-		
-										{% if cart.get_total_price < 1 %}
-										<p class="text-danger">your carrt is empty</p>
-										{% else %}
-										<a href=""></a>
-										<button class="main-btn "><a class="" href="{% url 'cart:cart_detail' %}">View Cart <i class="fa fa-arrow-circle-right"></i> </a></button>
-
-										<button class="main-btn "><a class="" href="{% url 'orders:checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i> </a></button>
-						
-										{% endif %}
-										
-									</div>
-								</div>
+							<div class="header-btns-icon">
+								<a href="{% url 'cart:cart_detail' %}"> <i class="fa fa-shopping-cart"></i></a>
+								<!-- <i class="fa fa-shopping-cart"></i> -->
+								<span class="qty">{{cart|length}}</span>
 							</div>
+
+
 						</li>
 						<!-- /Cart -->
 
-						<!-- Mobile nav toggle-->
-						<li class="nav-toggle">
-							<button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
-						</li>
-						<!-- / Mobile nav toggle -->
+					
 					</ul>
+
 				</div>
+				<div class="container">
+
+					<div class="header-search">
+						<form action="{% url 'shop:search' %}">
+							<input  style="border-radius: 20px; width:300px;" class="input" type="text" placeholder="Enter your keyword"
+								name="q" required>
+
+							<button class="search-btn"><i class="fa fa-search"></i></button>
+						</form>
+					</div>
+
+				</div>
+				<!-- header -->
 			</div>
-			<!-- header -->
-		</div>
-		<!-- container -->
-	</header>
-	<!-- /HEADER -->
+			<!-- container -->
+		</header>
+		<!-- /HEADER -->
