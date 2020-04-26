@@ -2,47 +2,44 @@
 {% load static %}
 
 	<!-- NAVIGATION -->
-	<div id="navigation ">
-		
+	<div id="navigation">
 		<!-- container -->
-		<div class="clearfix">
 		<div class="container">
 			<div id="responsive-nav">
 				<!-- category nav -->
 				<div class="category-nav show-on-click">
 					<span class="category-header">Categories <i class="fa fa-list"></i></span>
 
-					<ul class="category-list ">
+					<ul class="category-list">
 						<!-- loop -->
 						{% for navbars in nav %}
 
 						<li class="dropdown side-dropdown" ><a class="dropdown-toggle" data-toggle="dropdown"
 								aria-expanded="true">{{navbars.name}} <i class="fa fa-angle-right"></i></a>
-							<div class="custom-menu">
+							<div class="custom-menu ">
+							
 
-
-								<div class="row ">
+								<div class="row">
 									{% for category in  navbars.categories.all %}
-
+										
 									<div class="col-md-4">
 
-										<ul class="list-links">
+										<!-- <ul class="list-links"> -->
 											<li>
 												<h3 class="list-links-title"><u>{{category.name}}</u></h3>
 											</li>
-												
-												
+
 											{% for items in category.subcategory.all %}
-											
-											<li><a style="cursor: progress;" class="clearfix link" href="{{items.get_absolute_url}}">{{items.name}}</a></li>
 
+												
+											<li ><a class="" href="{{items.get_absolute_url}}">{{items.name}}</a></li>
 											{% endfor %}
-											<hr>
-										</ul>
+
+										<!-- </ul> -->
 									</div>
-
+										
 									{% endfor %}
-
+								
 								</div>
 
 
@@ -58,7 +55,6 @@
 
 			</div>
 		</div>
-	</div>
 		<!-- /container -->
 	</div>
 	<!-- /NAVIGATION -->
