@@ -68,7 +68,7 @@ Your Shopping Cart
                     <tr>
                         <th class="empty" colspan="3"></th>
                         <th>SUBTOTAL</th>
-                        <th colspan="2" class="sub-total">GH₵ 97.50</th>
+                        <th colspan="2" class="sub-total">GH₵ {{ cart.get_total_price|intcomma }}</th>
                     </tr>
                     <tr>
                         <th class="empty" colspan="3"></th>
